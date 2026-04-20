@@ -1,11 +1,15 @@
 import './App.css'
 import { VerificationCodeInput } from '@/lib/InputOTP'
+import { Toaster } from './components/ui/sonner'
 
 function App() {
   return (
-    <main className="app-page dark">
-      <VerificationCodeInput />
-    </main>
+    <>
+      <Toaster />
+      <main className="app-page dark">
+        <VerificationCodeInput />
+      </main>
+    </>
   )
 }
 
