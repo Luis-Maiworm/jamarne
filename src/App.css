@@ -1,0 +1,10 @@
+.app-page {
+	min-height: 100vh;
+	width: 100%;
+	display: grid;
+	place-items: center;
+	background:
+		radial-gradient(circle at 20% 15%, #1d2536 0%, transparent 42%),
+		radial-gradient(circle at 85% 80%, #1a2e2a 0%, transparent 40%),
+		#090b10;
+}
