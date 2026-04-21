@@ -9,7 +9,14 @@ import { toast } from "@/components/ui/8bit/toast"
 
 import { useState, useRef, useEffect } from "react"
 
-export function VerificationCodeInput() {
+const SOLUTION_WORD = "exactlyhere"
+const OTP_LENGTH = SOLUTION_WORD.length
+
+interface VerificationCodeInputProps {
+	onSuccess?: () => void
+}
+
+export function VerificationCodeInput({ onSuccess }: VerificationCodeInputProps) {
 	const [code, setCode] = useState("")
 	const otpRef = useRef<HTMLDivElement>(null)
 	const buttonRef = useRef<HTMLButtonElement>(null)
@@ -27,31 +34,49 @@ export function VerificationCodeInput() {
 	}
 
 	const handleValidate = () => {
-		toast(`Validating code: ${code}`)
-		// Add your validation logic here
+		const normalizedCode = code.trim().toLowerCase().replace(/\s+/g, " ")
+
+		if (normalizedCode === SOLUTION_WORD) {
+			toast("Correct solution word")
+			onSuccess?.()
+			return
+		}
+
+		toast("Wrong solution word")
 	}
 
 	return (
         <>
             <div ref={otpRef} className="flex flex-col gap-10" onKeyDown={handleKeyDown}>
 
-                <InputOTP maxLength={6} value={code} onChange={setCode}>
+				<InputOTP
+					maxLength={OTP_LENGTH}
+					value={code}
+					onChange={setCode}
+					pattern="[a-z ]*"
+				>
                     <InputOTPGroup>
                         <InputOTPSlot index={0} />
                         <InputOTPSlot index={1} />
                         <InputOTPSlot index={2} />
+						<InputOTPSlot index={3} />
+						<InputOTPSlot index={4} />
+						<InputOTPSlot index={5} />
+						<InputOTPSlot index={6} />
                     </InputOTPGroup>
                     <InputOTPSeparator />
+                    <InputOTPSeparator />
                     <InputOTPGroup>
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
+						<InputOTPSlot index={7} />
+						<InputOTPSlot index={8} />
+						<InputOTPSlot index={9} />
+						<InputOTPSlot index={10} />
                     </InputOTPGroup>
                 </InputOTP>
                 <Button
                 	ref={buttonRef}
                 	onClick={handleValidate}
-                	disabled={code.length !== 6}
+					disabled={code.length !== OTP_LENGTH}
                 >
                     Validate
                 </Button>

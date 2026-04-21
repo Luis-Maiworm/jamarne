@@ -34,6 +34,7 @@ interface InputOTPProps {
   maxLength: number;
   value?: string;
   onChange?: (value: string) => unknown;
+  pattern?: string;
   children?: React.ReactNode;
   className?: string;
   font?: "normal" | "retro";
