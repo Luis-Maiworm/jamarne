@@ -117,11 +117,7 @@ export function SuccessPage({ onReset }: SuccessPageProps) {
 
 			<Card
 				className="result-center"
-				style={{
-					backgroundImage: `linear-gradient(rgba(8, 10, 16, 0.74), rgba(8, 10, 16, 0.74)), url(${stTitle2})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-				}}
+
 			>
 				<CardHeader className="result-header">
 					<Badge className="result-kicker">Mission Complete</Badge>

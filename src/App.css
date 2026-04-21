@@ -109,6 +109,70 @@
 	text-transform: uppercase;
 }
 
+.transition-dark-layer {
+	position: absolute;
+	inset: 0;
+	background: #000;
+	opacity: 0;
+	pointer-events: none;
+	z-index: 7;
+	transition: opacity 1200ms ease;
+}
+
+.transition-title-layer {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	pointer-events: none;
+	z-index: 8;
+	transition: opacity 700ms ease;
+}
+
+.transition-title-gif {
+	width: 100vw;
+	height: 100vh;
+	display: block;
+	object-fit: cover;
+	image-rendering: pixelated;
+	filter: brightness(1.03) contrast(1.08);
+}
+
+.success-shell {
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	z-index: 9;
+}
+
+.success-shell.is-fading-in {
+	opacity: 0;
+	animation: success-fade-in 1800ms ease forwards;
+}
+
+.phase-darken .transition-dark-layer,
+.phase-title .transition-dark-layer,
+.phase-reveal .transition-dark-layer {
+	opacity: 0.82;
+}
+
+.phase-title .transition-title-layer {
+	opacity: 1;
+}
+
+.phase-reveal .transition-title-layer {
+	opacity: 0;
+	transition-duration: 1100ms;
+}
+
+@keyframes success-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 @media (max-width: 1024px) {
 	.result-tile-layer {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
@@ -129,6 +193,11 @@
 	.result-center {
 		padding: 1rem 1rem;
 		max-width: 86vw;
+	}
+
+	.transition-title-gif {
+		width: 100vw;
+		height: 100vh;
 	}
 
 	.music-toggle {
