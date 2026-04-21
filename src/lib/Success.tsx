@@ -33,7 +33,6 @@ import st23 from '@/assets/gif/st_23.gif'
 import st24 from '@/assets/gif/st_24.gif'
 import st25 from '@/assets/gif/st_25.gif'
 import st26 from '@/assets/gif/st_26.gif'
-import stTitle2 from '@/assets/gif/st_title2.gif'
 
 const GIF_POOL = [
 	st01,
