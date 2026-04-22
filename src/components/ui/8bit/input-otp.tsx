@@ -55,6 +55,11 @@ export const InputOTP = ({
         maxLength={maxLength}
         value={value}
         onChange={onChange}
+        inputMode="text"
+        type="text"
+        autoComplete="off"
+        autoCapitalize="none"
+        autoCorrect="off"
         {...otherProps}
         className={cn(font !== "normal" && "retro", className)}
       >
