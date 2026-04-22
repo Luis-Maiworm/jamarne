@@ -41,6 +41,7 @@ import st23 from '@/assets/gif/st_23.gif'
 import st24 from '@/assets/gif/st_24.gif'
 import st25 from '@/assets/gif/st_25.gif'
 import st26 from '@/assets/gif/st_26.gif'
+import kanu from '@/assets/kanu.png'
 import jarneHawkins from '@/assets/jarne_hawkins.jpeg'
 
 const GIF_POOL = [
@@ -124,6 +125,10 @@ export function SuccessPage({ onReset }: SuccessPageProps) {
 			</div>
 
 			<div className="result-layout">
+				
+				<div className="result-portrait-shell result-panel" aria-hidden="true">
+					<img src={jarneHawkins} alt="" className="result-portrait" />
+				</div>
 				<Card className="result-center result-panel">
 					<CardHeader className="result-header">
 						<Badge className="result-kicker">Mission Complete</Badge>
@@ -142,23 +147,25 @@ export function SuccessPage({ onReset }: SuccessPageProps) {
 								</DialogTrigger>
 								<DialogContent className="hint-dialog-content">
 									<DialogHeader>
-										<DialogTitle>geschenk</DialogTitle>
+										<DialogTitle>Wir fahren Kanu.</DialogTitle>
+										<img src={kanu} alt="Kanu" className="hint-dialog-image" />
+										<p className="hint-dialog-copy">
+											{/* Mustertext: Dieses Kanu steht als Platzhalter fuer dein Geschenk. */}
+										</p>
 										<DialogDescription>
-											Mustertext: Hier kann später ein echtes Geschenk oder eine kleine Überraschung eingebaut werden.
+											LG Raf Camora und Lueees
+
 										</DialogDescription>
 									</DialogHeader>
 								</DialogContent>
 							</Dialog>
 							<Button onClick={onReset} className="result-button" type="button">
-								Zurueck
+								Zurück
 							</Button>
 						</CardContent>
 					)}
 				</Card>
 
-				<div className="result-portrait-shell result-panel" aria-hidden="true">
-					<img src={jarneHawkins} alt="" className="result-portrait" />
-				</div>
 			</div>
 		</section>
 	)
