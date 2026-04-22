@@ -46,13 +46,15 @@ function InputOTPSlot({
   index: number
 }) {
   const inputOTPContext = React.useContext(OTPInputContext)
-  const { char } = inputOTPContext?.slots[index] ?? {}
+  const { char, isActive } = inputOTPContext?.slots[index] ?? {}
 
   return (
     <div
       data-slot="input-otp-slot"
+      data-active={isActive ? "true" : undefined}
       className={cn(
-        "relative flex size-8 items-center justify-center border-y border-r border-input text-sm outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive dark:bg-input/30",
+        "relative flex size-8 items-center justify-center border-y border-r border-input text-sm outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive dark:bg-input/30 transition-all duration-150",
+        isActive && "z-10 shadow-[4px_0_5px_2px_rgba(255,255,255,0.75)]",
         className
       )}
       {...props}

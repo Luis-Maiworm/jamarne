@@ -23,6 +23,7 @@ const SUCCESS_TRACKS = [successMusic]
 const DARKEN_DURATION = 1200
 const TITLE_DURATION = 1700
 const SUCCESS_FADE_DURATION = 1800
+const ATTEMPT_STORAGE_KEY = 'jamarne_attempt_count'
 
 const HINT_DIALOGS = [
   { label: 'Tipp 1', text: 'Ihr müsst an eine bestimmte Stelle einer Folge springen.' },
@@ -40,6 +41,16 @@ function App() {
   const [trackIndex, setTrackIndex] = useState(0)
   const [isVerified, setIsVerified] = useState(false)
   const [transitionPhase, setTransitionPhase] = useState<TransitionPhase>('idle')
+  const [attemptCount, setAttemptCount] = useState(() => {
+    const storedValue = window.localStorage.getItem(ATTEMPT_STORAGE_KEY)
+    const parsedValue = Number(storedValue)
+
+    if (!Number.isFinite(parsedValue) || parsedValue < 0) {
+      return 0
+    }
+
+    return Math.floor(parsedValue)
+  })
   const activeTracks = isVerified ? SUCCESS_TRACKS : DEFAULT_TRACKS
 
   useEffect(() => {
@@ -120,6 +131,14 @@ function App() {
     setTrackIndex((prev) => (prev + 1) % activeTracks.length)
   }
 
+  const handleAttempt = () => {
+    setAttemptCount((prev) => {
+      const next = prev + 1
+      window.localStorage.setItem(ATTEMPT_STORAGE_KEY, String(next))
+      return next
+    })
+  }
+
   return (
     <>
       <Toaster />
@@ -127,23 +146,34 @@ function App() {
         <Button className="music-toggle" onClick={toggleMusic} type="button">
           {isPlaying ? 'Music: On' : 'Music: Off'}
         </Button>
-        <div className="hint-rail" aria-label="Hinweise">
-          {HINT_DIALOGS.map((hint) => (
-            <Dialog key={hint.label}>
-              <DialogTrigger asChild>
-                <Button className="hint-button" type="button">
-                  {hint.label}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="hint-dialog-content">
-                <DialogHeader>
-                  <DialogTitle>{hint.label}</DialogTitle>
-                  <DialogDescription>{hint.text}</DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          ))}
-        </div>
+        {!isVerified && transitionPhase === 'idle' && (
+          <div className="hint-rail" aria-label="Hinweise">
+            {HINT_DIALOGS.map((hint, index) => {
+              const unlockAfterAttempts = (index + 1) * 3
+              const remainingAttempts = Math.max(0, unlockAfterAttempts - attemptCount)
+              const isUnlocked = remainingAttempts === 0
+              const attemptLabel = remainingAttempts === 1 ? 'Versuch' : 'Versuche'
+
+              return (
+                <Dialog key={hint.label}>
+                  <DialogTrigger asChild>
+                    <Button className="hint-button" type="button" disabled={!isUnlocked}>
+                      {isUnlocked
+                        ? hint.label
+                        : `${hint.label} (noch ${remainingAttempts} ${attemptLabel})`}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="hint-dialog-content">
+                    <DialogHeader>
+                      <DialogTitle>{hint.label}</DialogTitle>
+                      <DialogDescription>{hint.text}</DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              )
+            })}
+          </div>
+        )}
         <audio
           ref={audioRef}
           src={activeTracks[trackIndex]}
@@ -162,7 +192,7 @@ function App() {
           ) : (
             <div className="">
               <div className="app-bg-gif" style={{ backgroundImage: `url(${titleGif})` }} />
-              <VerificationCodeInput onSuccess={handleSuccess} />
+              <VerificationCodeInput onSuccess={handleSuccess} onAttempt={handleAttempt} />
               {/* <div className="verification-shell-content"> */}
               {/* </div> */}
             </div>

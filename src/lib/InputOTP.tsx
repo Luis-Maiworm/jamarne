@@ -14,9 +14,10 @@ const OTP_LENGTH = SOLUTION_WORD.length
 
 interface VerificationCodeInputProps {
 	onSuccess?: () => void
+	onAttempt?: () => void
 }
 
-export function VerificationCodeInput({ onSuccess }: VerificationCodeInputProps) {
+export function VerificationCodeInput({ onSuccess, onAttempt }: VerificationCodeInputProps) {
 	const [code, setCode] = useState("")
 	const otpRef = useRef<HTMLDivElement>(null)
 	const buttonRef = useRef<HTMLButtonElement>(null)
@@ -34,15 +35,20 @@ export function VerificationCodeInput({ onSuccess }: VerificationCodeInputProps)
 	}
 
 	const handleValidate = () => {
+		onAttempt?.()
 		const normalizedCode = code.trim().toLowerCase().replace(/\s+/g, " ")
+		const input = otpRef.current?.querySelector("input")
 
 		if (normalizedCode === SOLUTION_WORD) {
-			toast("Correct solution word")
 			onSuccess?.()
+			setCode("")
+			input?.focus()
 			return
 		}
 
 		toast("Wrong solution word")
+		setCode("")
+		input?.focus()
 	}
 
 	return (
