@@ -29,7 +29,11 @@ const HINT_DIALOGS = [
   { label: 'Tipp 1', text: 'Ihr müsst an eine bestimmte Stelle einer Folge springen.' },
   { label: 'Tipp 2', text: 'Genau hier!' },
   { label: 'Tipp 3', text: 'Englisch!' },
-  { label: 'Lösung', text: 'War das so schwer?!? Na dann: https://www.netflix.com/watch/80077370?s=a&trkid=278685009&t=2711&d=26&momentUuid=d1042914-55c2-456a-89af-e590a3fe43fe&shareType=Moment&shareUuid=eeda929b-18db-4fe2-a054-41a6b0c23687&trg=wha&unifiedEntityIdEncoded=Video%3A80057281' },
+  {
+    label: 'Lösung',
+    text: 'War das so schwer?!? Na dann:',
+    href: 'https://www.netflix.com/watch/80077370?s=a&trkid=278685009&t=2711&d=26&momentUuid=d1042914-55c2-456a-89af-e590a3fe43fe&shareType=Moment&shareUuid=eeda929b-18db-4fe2-a054-41a6b0c23687&trg=wha&unifiedEntityIdEncoded=Video%3A80057281',
+  },
 ]
 
 type TransitionPhase = 'idle' | 'darken' | 'title' | 'reveal'
@@ -166,7 +170,19 @@ function App() {
                   <DialogContent className="hint-dialog-content">
                     <DialogHeader>
                       <DialogTitle>{hint.label}</DialogTitle>
-                      <DialogDescription>{hint.text}</DialogDescription>
+                      <DialogDescription className="hint-dialog-description">
+                        <span>{hint.text}</span>
+                        {hint.href && (
+                          <a
+                            className="hint-dialog-link"
+                            href={hint.href}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Klick hier
+                          </a>
+                        )}
+                      </DialogDescription>
                     </DialogHeader>
                   </DialogContent>
                 </Dialog>
