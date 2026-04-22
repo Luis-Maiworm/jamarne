@@ -8,6 +8,7 @@ import bgMusic from './assets/music/st_title_00.mp3'
 import bgMusic2 from './assets/music/st_title_01.mp3'
 import successMusic from './assets/music/st_title_03.mp3'
 import stTitle2 from './assets/gif/st_title2.gif'
+import titleGif from './assets/gif/st_title.gif'
 
 const DEFAULT_TRACKS = [bgMusic, bgMusic2]
 const SUCCESS_TRACKS = [successMusic]
@@ -127,7 +128,12 @@ function App() {
               <SuccessPage onReset={handleReset} />
             </div>
           ) : (
-            <VerificationCodeInput onSuccess={handleSuccess} />
+            <div className="">
+              <div className="app-bg-gif" style={{ backgroundImage: `url(${titleGif})` }} />
+              <VerificationCodeInput onSuccess={handleSuccess} />
+              {/* <div className="verification-shell-content"> */}
+              {/* </div> */}
+            </div>
           )}
         </div>
       </main>
