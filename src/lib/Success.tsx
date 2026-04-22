@@ -6,6 +6,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/8bit/card'
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/8bit/dialog'
 import { Badge } from '@/components/ui/8bit/badge'
 import st01 from '@/assets/gif/st_01.gif'
 import st02 from '@/assets/gif/st_02.gif'
@@ -33,6 +41,7 @@ import st23 from '@/assets/gif/st_23.gif'
 import st24 from '@/assets/gif/st_24.gif'
 import st25 from '@/assets/gif/st_25.gif'
 import st26 from '@/assets/gif/st_26.gif'
+import jarneHawkins from '@/assets/jarne_hawkins.jpeg'
 
 const GIF_POOL = [
 	st01,
@@ -114,25 +123,43 @@ export function SuccessPage({ onReset }: SuccessPageProps) {
 				))}
 			</div>
 
-			<Card
-				className="result-center"
+			<div className="result-layout">
+				<Card className="result-center result-panel">
+					<CardHeader className="result-header">
+						<Badge className="result-kicker">Mission Complete</Badge>
+						<CardTitle className="result-title">Access Granted</CardTitle>
+						<CardDescription className="result-copy">
+							Der Code war korrekt.
+						</CardDescription>
+					</CardHeader>
+					{onReset && (
+						<CardContent className="result-actions">
+							<Dialog>
+								<DialogTrigger asChild>
+									<Button className="result-button result-gift-button" type="button">
+										geschenk
+									</Button>
+								</DialogTrigger>
+								<DialogContent className="hint-dialog-content">
+									<DialogHeader>
+										<DialogTitle>geschenk</DialogTitle>
+										<DialogDescription>
+											Mustertext: Hier kann später ein echtes Geschenk oder eine kleine Überraschung eingebaut werden.
+										</DialogDescription>
+									</DialogHeader>
+								</DialogContent>
+							</Dialog>
+							<Button onClick={onReset} className="result-button" type="button">
+								Zurueck
+							</Button>
+						</CardContent>
+					)}
+				</Card>
 
-			>
-				<CardHeader className="result-header">
-					<Badge className="result-kicker">Mission Complete</Badge>
-					<CardTitle className="result-title">Access Granted</CardTitle>
-					<CardDescription className="result-copy">
-						Der Code war korrekt. Willkommen auf Seite 2.
-					</CardDescription>
-				</CardHeader>
-				{onReset && (
-					<CardContent className="result-actions">
-						<Button onClick={onReset} className="result-button" type="button">
-							Zurueck
-						</Button>
-					</CardContent>
-				)}
-			</Card>
+				<div className="result-portrait-shell result-panel" aria-hidden="true">
+					<img src={jarneHawkins} alt="" className="result-portrait" />
+				</div>
+			</div>
 		</section>
 	)
 }
