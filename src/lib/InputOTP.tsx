@@ -9,7 +9,7 @@ import { toast } from "@/components/ui/8bit/toast"
 
 import { useState, useRef, useEffect } from "react"
 
-const SOLUTION_WORD = "exactlyhere"
+const SOLUTION_WORD = "righthere"
 const OTP_LENGTH = SOLUTION_WORD.length
 
 interface VerificationCodeInputProps {
@@ -67,16 +67,14 @@ export function VerificationCodeInput({ onSuccess, onAttempt }: VerificationCode
                         <InputOTPSlot index={2} />
 						<InputOTPSlot index={3} />
 						<InputOTPSlot index={4} />
-						<InputOTPSlot index={5} />
-						<InputOTPSlot index={6} />
                     </InputOTPGroup>
                     <InputOTPSeparator />
                     <InputOTPSeparator />
                     <InputOTPGroup>
+						<InputOTPSlot index={5} />
+						<InputOTPSlot index={6} />
 						<InputOTPSlot index={7} />
 						<InputOTPSlot index={8} />
-						<InputOTPSlot index={9} />
-						<InputOTPSlot index={10} />
                     </InputOTPGroup>
                 </InputOTP>
                 <Button
