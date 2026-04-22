@@ -4,6 +4,14 @@ import { VerificationCodeInput } from '@/lib/InputOTP'
 import { SuccessPage } from '@/lib/Success'
 import { Toaster } from './components/ui/sonner'
 import { Button } from '@/components/ui/8bit/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './components/ui/8bit/dialog'
 import bgMusic from './assets/music/st_title_00.mp3'
 import bgMusic2 from './assets/music/st_title_01.mp3'
 import successMusic from './assets/music/st_title_03.mp3'
@@ -16,12 +24,19 @@ const DARKEN_DURATION = 1200
 const TITLE_DURATION = 1700
 const SUCCESS_FADE_DURATION = 1800
 
+const HINT_DIALOGS = [
+  { label: 'Tipp 1', text: 'Ihr müsst an eine bestimmte Stelle einer Folge springen.' },
+  { label: 'Tipp 2', text: 'Genau hier!' },
+  { label: 'Tipp 3', text: 'Englisch!' },
+  { label: 'Lösung', text: 'War das so schwer?!? Na dann: https://www.netflix.com/watch/80077370?s=a&trkid=278685009&t=2711&d=26&momentUuid=d1042914-55c2-456a-89af-e590a3fe43fe&shareType=Moment&shareUuid=eeda929b-18db-4fe2-a054-41a6b0c23687&trg=wha&unifiedEntityIdEncoded=Video%3A80057281' },
+]
+
 type TransitionPhase = 'idle' | 'darken' | 'title' | 'reveal'
 
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const transitionTimersRef = useRef<number[]>([])
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const [trackIndex, setTrackIndex] = useState(0)
   const [isVerified, setIsVerified] = useState(false)
   const [transitionPhase, setTransitionPhase] = useState<TransitionPhase>('idle')
@@ -112,6 +127,23 @@ function App() {
         <Button className="music-toggle" onClick={toggleMusic} type="button">
           {isPlaying ? 'Music: On' : 'Music: Off'}
         </Button>
+        <div className="hint-rail" aria-label="Hinweise">
+          {HINT_DIALOGS.map((hint) => (
+            <Dialog key={hint.label}>
+              <DialogTrigger asChild>
+                <Button className="hint-button" type="button">
+                  {hint.label}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="hint-dialog-content">
+                <DialogHeader>
+                  <DialogTitle>{hint.label}</DialogTitle>
+                  <DialogDescription>{hint.text}</DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          ))}
+        </div>
         <audio
           ref={audioRef}
           src={activeTracks[trackIndex]}
