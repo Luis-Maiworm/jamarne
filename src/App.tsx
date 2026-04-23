@@ -24,7 +24,7 @@ const DARKEN_DURATION = 1200
 const TITLE_DURATION = 1700
 const SUCCESS_FADE_DURATION = 1800
 const ATTEMPT_STORAGE_KEY = 'jamarne_attempt_count'
-const SMALL_SCREEN_MAX_WIDTH = 1500
+const SMALL_SCREEN_MAX_WIDTH = 1300
 
 const HINT_DIALOGS = [
   { label: 'Tipp 1', text: 'Ihr müsst an eine bestimmte Stelle einer Folge springen.' },
