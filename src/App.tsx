@@ -24,6 +24,7 @@ const DARKEN_DURATION = 1200
 const TITLE_DURATION = 1700
 const SUCCESS_FADE_DURATION = 1800
 const ATTEMPT_STORAGE_KEY = 'jamarne_attempt_count'
+const SMALL_SCREEN_MAX_WIDTH = 1500
 
 const HINT_DIALOGS = [
   { label: 'Tipp 1', text: 'Ihr müsst an eine bestimmte Stelle einer Folge springen.' },
@@ -41,6 +42,13 @@ type TransitionPhase = 'idle' | 'darken' | 'title' | 'reveal'
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const transitionTimersRef = useRef<number[]>([])
+  const [isSmallScreen, setIsSmallScreen] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false
+    }
+
+    return window.innerWidth <= SMALL_SCREEN_MAX_WIDTH
+  })
   const [isPlaying, setIsPlaying] = useState(true)
   const [trackIndex, setTrackIndex] = useState(0)
   const [isVerified, setIsVerified] = useState(false)
@@ -58,14 +66,31 @@ function App() {
   const activeTracks = isVerified ? SUCCESS_TRACKS : DEFAULT_TRACKS
 
   useEffect(() => {
+    const handleResize = () => {
+      const isNowSmall = window.innerWidth <= SMALL_SCREEN_MAX_WIDTH
+      setIsSmallScreen(isNowSmall)
+
+      if (isNowSmall) {
+        audioRef.current?.pause()
+        setIsPlaying(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
     const player = audioRef.current
-    if (!player || !isPlaying) return
+    if (!player || !isPlaying || isSmallScreen) return
 
     player.load()
     player.play().catch(() => {
       setIsPlaying(false)
     })
-  }, [trackIndex, isPlaying, isVerified])
+  }, [trackIndex, isPlaying, isVerified, isSmallScreen])
 
   useEffect(() => {
     return () => {
@@ -141,6 +166,14 @@ function App() {
       window.localStorage.setItem(ATTEMPT_STORAGE_KEY, String(next))
       return next
     })
+  }
+
+  if (isSmallScreen) {
+    return (
+      <main className="small-screen-message" role="alert" aria-live="polite">
+        Nice try! 😉 <br></br>Großer Bildschirm hatten wir gesagt!
+      </main>
+    )
   }
 
   return (

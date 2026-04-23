@@ -18,6 +18,19 @@
 		#000;
 }
 
+.small-screen-message {
+	min-height: 100vh;
+	width: 100%;
+	display: grid;
+	place-items: center;
+	padding: 1.5rem;
+	text-align: center;
+	font-size: 1rem;
+	line-height: 1.4;
+	color: #f5f7ff;
+	background: #050505;
+}
+
 .app-content {
 	position: relative;
 	z-index: 2;
