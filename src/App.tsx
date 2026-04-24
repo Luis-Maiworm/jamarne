@@ -39,9 +39,12 @@ const HINT_DIALOGS = [
 
 type TransitionPhase = 'idle' | 'darken' | 'title' | 'reveal'
 
+const AUDIO_FADE_DURATION = 1500
+
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const transitionTimersRef = useRef<number[]>([])
+  const audioFadeAnimationRef = useRef<number | null>(null)
   const [isSmallScreen, setIsSmallScreen] = useState(() => {
     if (typeof window === 'undefined') {
       return false
@@ -95,12 +98,47 @@ function App() {
   useEffect(() => {
     return () => {
       transitionTimersRef.current.forEach((timer) => window.clearTimeout(timer))
+      if (audioFadeAnimationRef.current !== null) {
+        cancelAnimationFrame(audioFadeAnimationRef.current)
+      }
     }
   }, [])
 
   const clearTransitionTimers = () => {
     transitionTimersRef.current.forEach((timer) => window.clearTimeout(timer))
     transitionTimersRef.current = []
+  }
+
+  const fadeAudio = (targetVolume: number, duration: number): Promise<void> => {
+    return new Promise((resolve) => {
+      const player = audioRef.current
+      if (!player) {
+        resolve()
+        return
+      }
+
+      const startVolume = player.volume
+      const startTime = Date.now()
+
+      if (audioFadeAnimationRef.current !== null) {
+        cancelAnimationFrame(audioFadeAnimationRef.current)
+      }
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        player.volume = startVolume + (targetVolume - startVolume) * progress
+
+        if (progress < 1) {
+          audioFadeAnimationRef.current = requestAnimationFrame(animate)
+        } else {
+          audioFadeAnimationRef.current = null
+          resolve()
+        }
+      }
+
+      audioFadeAnimationRef.current = requestAnimationFrame(animate)
+    })
   }
 
   const handleSuccess = () => {
@@ -117,10 +155,17 @@ function App() {
     )
 
     transitionTimersRef.current.push(
-      window.setTimeout(() => {
+      window.setTimeout(async () => {
+        // Fade out the current music
+        await fadeAudio(0, AUDIO_FADE_DURATION)
+        
+        // Switch to success track
         setIsVerified(true)
         setTrackIndex(0)
         setTransitionPhase('reveal')
+        
+        // Fade in the new music
+        await fadeAudio(1, AUDIO_FADE_DURATION)
       }, DARKEN_DURATION + TITLE_DURATION)
     )
 
@@ -133,6 +178,9 @@ function App() {
 
   const handleReset = () => {
     clearTransitionTimers()
+    if (audioRef.current) {
+      audioRef.current.volume = 1
+    }
     setTrackIndex(0)
     setIsVerified(false)
     setTransitionPhase('idle')
