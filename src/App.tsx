@@ -24,12 +24,12 @@ const DARKEN_DURATION = 1200
 const TITLE_DURATION = 1700
 const SUCCESS_FADE_DURATION = 1800
 const ATTEMPT_STORAGE_KEY = 'jamarne_attempt_count'
-const SMALL_SCREEN_MAX_WIDTH = 1300
+const SMALL_SCREEN_MAX_WIDTH = 1200
 
 const HINT_DIALOGS = [
-  { label: 'Tipp 1', text: 'Ihr müsst an eine bestimmte Stelle einer Folge springen.' },
-  { label: 'Tipp 2', text: 'Genau hier!' },
-  { label: 'Tipp 3', text: 'Englisch!' },
+  { label: 'Tipp 1', text: 'Das Ergebnis aus dem 1. Rätsel habt ihr?' },
+  { label: 'Tipp 2', text: 'Was sagt Google zur 1. Rätsel-Lösung?' },
+  { label: 'Tipp 3', text: 'Die finale Lösung ist Englisch!' },
   {
     label: 'Lösung',
     text: 'War das so schwer?!? Na dann:',
