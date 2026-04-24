@@ -27,12 +27,12 @@ const ATTEMPT_STORAGE_KEY = 'jamarne_attempt_count'
 const SMALL_SCREEN_MAX_WIDTH = 1200
 
 const HINT_DIALOGS = [
-  { label: 'Tipp 1', text: 'Das Ergebnis aus dem 1. Rätsel habt ihr?' },
-  { label: 'Tipp 2', text: 'Was sagt Google zur 1. Rätsel-Lösung?' },
-  { label: 'Tipp 3', text: 'Die finale Lösung ist Englisch!' },
+  { label: 'Tipp 1', text: 'Das Buchstaben Rätsel gelöst? Dann habt ihr nen Hinweis wo ihr für die finale Lösung suchen müsst!' },
+  { label: 'Tipp 2', text: 'Die finale Lösung findet ihr in einer Folge einer Serie. Welche könnte das wohl sein?' },
+  { label: 'Tipp 3', text: 'Die finale Lösung ist auf Englisch!' },
   {
     label: 'Lösung',
-    text: 'War das so schwer?!? Na dann:',
+    text: 'War das so schwer?! Na dann:',
     href: 'https://www.netflix.com/watch/80077370?s=a&trkid=278685009&t=2711&d=26&momentUuid=d1042914-55c2-456a-89af-e590a3fe43fe&shareType=Moment&shareUuid=eeda929b-18db-4fe2-a054-41a6b0c23687&trg=wha&unifiedEntityIdEncoded=Video%3A80057281',
   },
 ]
