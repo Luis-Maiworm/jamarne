@@ -91,7 +91,7 @@ function App() {
 
     player.load()
     player.play().catch(() => {
-      setIsPlaying(false)
+      // setIsPlaying(false)
     })
   }, [trackIndex, isPlaying, isVerified, isSmallScreen])
 
@@ -200,7 +200,7 @@ function App() {
       await player.play()
       setIsPlaying(true)
     } catch {
-      setIsPlaying(false)
+      // setIsPlaying(false)
     }
   }
 
@@ -276,6 +276,7 @@ function App() {
           src={activeTracks[trackIndex]}
           onEnded={handleTrackEnd}
           preload="metadata"
+          autoPlay
         />
         <div className="transition-dark-layer" aria-hidden="true" />
         <div className="transition-title-layer" aria-hidden="true">
